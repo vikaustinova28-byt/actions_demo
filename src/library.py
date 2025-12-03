@@ -1,16 +1,15 @@
 class Book:
-    def __init__(self,title,author,year):
+    def __init__(self, title, author, year):
         self.__title = title
         self.__author = author
         self.__year = year
         self.__available = True
 
-
     def get_title(self):
-            return self.__title
+        return self.__title
 
     def get_author(self):
-            return self.__author
+        return self.__author
 
     def get_year(self):
         return self.__year
@@ -19,31 +18,32 @@ class Book:
         return self.__available
 
     def mark_as_taken(self):
-         self.__available = False
+        self.__available = False
 
     def mark_as_returned(self):
-         self.__available = True
+        self.__available = True
 
     def __str__(self):
         status = "доступна" if self.__available else "недоступна"
-        return f"'{self.__title} - {self.__author},{self.__year} ({status})"
+        return f"'{self.__title} - {self.__author}, {self.__year} ({status})"
 
 
 class PrintedBook(Book):
-        def __init__(self, title, author, year, pages, condition="новая"):
-            super().__init__(title, author, year)
-            self.pages = pages
-            self.condition = condition
+    def __init__(self, title, author, year, pages, condition="новая"):
+        super().__init__(title, author, year)
+        self.pages = pages
+        self.condition = condition
 
-        def repair(self):
-            if self.condition == "плохая":
-                self.condition = "хорошая"
-            elif self.condition == "хорошая":
-                self.condition = "новая"
-            print(f"Книга «{self.get_title()}» отремонтирована, состояние: {self.condition}")
+    def repair(self):
+        if self.condition == "плохая":
+            self.condition = "хорошая"
+        elif self.condition == "хорошая":
+            self.condition = "новая"
+        print(f"Книга «{self.get_title()}» отремонтирована, состояние: {self.condition}")
 
-        def __str__(self):
-            return f"{super().__str__()} — {self.pages} стр., состояние: {self.condition}"
+    def __str__(self):
+        return f"{super().__str__()} — {self.pages} стр., состояние: {self.condition}"
+
 
 class EBook(Book):
     def __init__(self, title, author, year, file_size, format_):
@@ -56,6 +56,7 @@ class EBook(Book):
 
     def __str__(self):
         return f"{super().__str__()} — {self.file_size}MB, формат: {self.format}"
+
 
 class User:
     def __init__(self, name):
@@ -154,13 +155,15 @@ class Library:
         else:
             print("Ошибка: книга или пользователь не найдены.")
 
+
 if __name__ == '__main__':
     lib = Library()
 
     # --- создаём книги ---
     b1 = PrintedBook("Война и мир", "Толстой", 1869, 1225, "хорошая")
     b2 = EBook("Мастер и Маргарита", "Булгаков", 1966, 5, "epub")
-    b3 = PrintedBook("Преступление и наказание", "Достоевский", 1866, 480, "плохая")
+    b3 = PrintedBook("Преступление и наказание", "Достоевский", 1866, 480,
+                     "плохая")
 
     # --- создаём пользователей ---
     user1 = User("Анна")
@@ -177,9 +180,7 @@ if __name__ == '__main__':
     # --- пользователь берёт книгу ---
     lib.lend_book("Война и мир", "Анна")
 
-
     user1.show_books()
-
 
     lib.return_book("Война и мир", "Анна")
 
