@@ -25,7 +25,9 @@ class Book:
 
     def __str__(self):
         status = "доступна" if self.__available else "недоступна"
-        return f"'{self.__title} - {self.__author}, {self.__year} ({status})"
+        msg = (f"'{self.__title} - {self.__author}, "
+               f"{self.__year} ({status})")
+        return msg
 
 
 class PrintedBook(Book):
@@ -39,10 +41,13 @@ class PrintedBook(Book):
             self.condition = "хорошая"
         elif self.condition == "хорошая":
             self.condition = "новая"
-        print(f"Книга «{self.get_title()}» отремонтирована, состояние: {self.condition}")
+        msg = (f"Книга «{self.get_title()}» отремонтирована, "
+               f"состояние: {self.condition}")
+        print(msg)
 
     def __str__(self):
-        return f"{super().__str__()} — {self.pages} стр., состояние: {self.condition}"
+        return (f"{super().__str__()} — {self.pages} стр., "
+                f"состояние: {self.condition}")
 
 
 class EBook(Book):
@@ -55,7 +60,8 @@ class EBook(Book):
         print(f"Книга «{self.get_title()}» загружается...")
 
     def __str__(self):
-        return f"{super().__str__()} — {self.file_size}MB, формат: {self.format}"
+        return (f"{super().__str__()} — {self.file_size}MB, "
+                f"формат: {self.format}")
 
 
 class User:
@@ -67,17 +73,22 @@ class User:
         if book.is_available():
             book.mark_as_taken()
             self.__borrowed_books.append(book)
-            print(f"{self.name} взял(а) книгу «{book.get_title()}».")
+            msg = f"{self.name} взял(а) книгу «{book.get_title()}»."
+            print(msg)
         else:
-            print(f"Книга «{book.get_title()}» недоступна.")
+            msg = f"Книга «{book.get_title()}» недоступна."
+            print(msg)
 
     def return_book(self, book):
         if book in self.__borrowed_books:
             book.mark_as_returned()
             self.__borrowed_books.remove(book)
-            print(f"{self.name} вернул(а) книгу «{book.get_title()}».")
+            msg = f"{self.name} вернул(а) книгу «{book.get_title()}»."
+            print(msg)
         else:
-            print(f"{self.name} не имеет книгу «{book.get_title()}» у себя.")
+            msg = (f"{self.name} не имеет книгу "
+                   f"«{book.get_title()}» у себя.")
+            print(msg)
 
     def show_books(self):
         if not self.__borrowed_books:
@@ -94,15 +105,20 @@ class User:
 class Librarian(User):
     def add_book(self, library, book):
         library.add_book(book)
-        print(f"{self.name} добавил(а) книгу «{book.get_title()}» в библиотеку.")
+        msg = (f"{self.name} добавил(а) книгу "
+               f"«{book.get_title()}» в библиотеку.")
+        print(msg)
 
     def remove_book(self, library, title):
         library.remove_book(title)
-        print(f"{self.name} удалил(а) книгу «{title}» из библиотеки.")
+        msg = f"{self.name} удалил(а) книгу «{title}» из библиотеки."
+        print(msg)
 
     def register_user(self, library, user):
         library.add_user(user)
-        print(f"{self.name} зарегистрировал(а) пользователя: {user.name}")
+        msg = (f"{self.name} зарегистрировал(а) пользователя: "
+               f"{user.name}")
+        print(msg)
 
 
 class Library:
@@ -141,29 +157,34 @@ class Library:
 
     def lend_book(self, title, user_name):
         book = self.find_book(title)
-        user = next((u for u in self.__users if u.name == user_name), None)
+        user = next((u for u in self.__users if u.name == user_name),
+                    None)
         if book and user:
             user.borrow(book)
         else:
-            print("Ошибка: книга или пользователь не найдены.")
+            msg = "Ошибка: книга или пользователь не найдены."
+            print(msg)
 
     def return_book(self, title, user_name):
         book = self.find_book(title)
-        user = next((u for u in self.__users if u.name == user_name), None)
+        user = next((u for u in self.__users if u.name == user_name),
+                    None)
         if book and user:
             user.return_book(book)
         else:
-            print("Ошибка: книга или пользователь не найдены.")
+            msg = "Ошибка: книга или пользователь не найдены."
+            print(msg)
 
 
 if __name__ == '__main__':
     lib = Library()
 
     # --- создаём книги ---
-    b1 = PrintedBook("Война и мир", "Толстой", 1869, 1225, "хорошая")
+    b1 = PrintedBook("Война и мир", "Толстой", 1869, 1225,
+                     "хорошая")
     b2 = EBook("Мастер и Маргарита", "Булгаков", 1966, 5, "epub")
-    b3 = PrintedBook("Преступление и наказание", "Достоевский", 1866, 480,
-                     "плохая")
+    b3 = PrintedBook("Преступление и наказание", "Достоевский", 1866,
+                     480, "плохая")
 
     # --- создаём пользователей ---
     user1 = User("Анна")
@@ -188,4 +209,6 @@ if __name__ == '__main__':
 
     b3.repair()
     print(b3)
+
+
 
