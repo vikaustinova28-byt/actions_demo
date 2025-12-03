@@ -1,5 +1,5 @@
 import unittest
-from src.main import Book, PrintedBook, EBook,User,Librarian,Library
+from src.library import Book, PrintedBook, EBook, User, Librarian, Library
 
 class TestBook(unittest.TestCase):
     def test_book_available_and_change_status(self):
@@ -18,6 +18,7 @@ class TestPrintedBook(unittest.TestCase):
         self.assertEqual(book.condition, "хорошая")
         book.repair()
         self.assertEqual(book.condition, "новая")
+
 class TestLibrary(unittest.TestCase):
 
     def test_lend_and_return_book(self):
@@ -27,7 +28,7 @@ class TestLibrary(unittest.TestCase):
         book = PrintedBook("Война и мир", "Толстой", 1869, 1225, "хорошая")
         librarian.add_book(library, book)
         librarian.register_user(library, user)
-         # выдаём книгу
+        # выдаём книгу
         library.lend_book("Война и мир", "Анна")
         self.assertFalse(book.is_available())
         self.assertIn(book, user.get_borrowed_books())
